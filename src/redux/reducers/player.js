@@ -1,6 +1,9 @@
-import { SAVEUSER } from '../actions';
+import { SAVENAME, SAVEUSER } from '../actions';
 
 const INITIAL_STATE = {
+  name: '',
+  score: 0,
+  gravatarEmail: '',
 };
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
@@ -10,6 +13,11 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
     return {
       ...state,
       player: payload,
+    };
+  case SAVENAME:
+
+    return {
+      name: payload,
     };
 
   default:
