@@ -1,4 +1,4 @@
-import { SAVEUSER } from '../actions';
+import { SAVENAME, SAVEUSER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -12,9 +12,12 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
 
     return {
       ...state,
-      player: payload.name,
-      gravatarEmail: payload.email,
-      photoUrl: payload.photo,
+      player: payload,
+    };
+  case SAVENAME:
+
+    return {
+      name: payload,
     };
 
   default:

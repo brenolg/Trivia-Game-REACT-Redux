@@ -1,6 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import { connect } from 'react-redux';
 import requestToken from '../services/tokenApi';
+import { saveUser } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -13,11 +15,13 @@ class Login extends React.Component {
   }
 
   handleClick = async () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
+    const { name } = this.state;
     const data = await requestToken();
     console.log(data);
     localStorage.setItem('token', data);
     history.push('/play');
+    dispatch(saveUser(name));
   };
 
   handleChange = ({ target }) => {
@@ -74,5 +78,6 @@ Login.propTypes = {
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
+  dispatch: PropTypes.func.isRequired,
 };
-export default Login;
+export default connect()(Login);
