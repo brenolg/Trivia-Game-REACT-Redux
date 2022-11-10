@@ -1,10 +1,9 @@
 import React from 'react';
-import { Switch, Route } from 'react-router-dom';
-import logo from './trivia.png';
+import { Route, Switch } from 'react-router-dom';
 import './App.css';
-import Play from './pages/Play';
 import Login from './pages/Login';
-import Feedback from './pages/Feedback';
+import Play from './pages/Play';
+import logo from './trivia.png';
 
 export default function App() {
   return (
@@ -17,7 +16,7 @@ export default function App() {
         <Switch>
           <Route exact path="/" component={ Login } />
           <Route path="/play" component={ Play } />
-          <Route path="/feedback" component={ Feedback } />
+          {/* <Route path="/feedback" component={ Feedback } /> */}
         </Switch>
       </main>
     </div>
