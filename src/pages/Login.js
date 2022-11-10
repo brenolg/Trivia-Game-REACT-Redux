@@ -1,6 +1,6 @@
-import React from 'react';
 import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
+import React from 'react';
 import requestToken from '../services/tokenApi';
 import { saveUser } from '../redux/actions';
 
@@ -14,11 +14,12 @@ class Login extends React.Component {
     };
   }
 
-  handleClick = async () => {
+  handleClick = async (event) => {
+    event.preventDefault();
     const { history, dispatch } = this.props;
     const { name } = this.state;
     const data = await requestToken();
-    console.log(data);
+    // console.log(data);
     localStorage.setItem('token', data);
     history.push('/play');
     dispatch(saveUser(name));
@@ -40,6 +41,7 @@ class Login extends React.Component {
 
   render() {
     const { email, name } = this.state;
+    const { history } = this.props;
     return (
       <div className="login-content">
         <h1>Hello World</h1>
@@ -68,6 +70,15 @@ class Login extends React.Component {
           onClick={ this.handleClick }
         >
           Play
+        </button>
+        <button
+          type="button"
+          data-testid="btn-settings"
+          onClick={ () => {
+            history.push('/config');
+          } }
+        >
+          Configurações
         </button>
       </div>
     );
