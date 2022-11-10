@@ -12,7 +12,8 @@ class Login extends React.Component {
     };
   }
 
-  handleClick = async () => {
+  handleClick = async (event) => {
+    event.preventDefault();
     const { history } = this.props;
     const data = await requestToken();
     // console.log(data);

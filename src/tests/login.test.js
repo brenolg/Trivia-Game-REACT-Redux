@@ -1,4 +1,4 @@
-import { screen, waitForElementToBeRemoved } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
@@ -21,8 +21,7 @@ describe('Criando testes para Página de Login', () => {
   });
 
   test('Se a rota é renderizada corretamente no caminho /play', async () => {
-    const { history } = renderWithRouterAndRedux (<App />, { initialEntries: ['/'] },
-    );
+    const { history } = renderWithRouterAndRedux (<App />);
 
     const testeEmail = 'test@test.com'
     const testeName = 'teste'
@@ -35,11 +34,9 @@ describe('Criando testes para Página de Login', () => {
     expect(btnEntrar).toBeEnabled();
 
     userEvent.click(btnEntrar);
-    await waitForElementToBeRemoved(() => screen.getByTestId('btn-play'));
-    // expect(history.location.pathname).toBe('/play');
-
-
-    const { pathname } = history.location;
-    expect(pathname).toBe('/play');
+    waitFor(() => {
+        expect(screen.getByText('Game')).toBeInTheDocument();
+        expect(history.location.pathname).toBe('/play');
+    });
   });  
 });
