@@ -1,5 +1,5 @@
-import React from 'react';
 import PropTypes from 'prop-types';
+import React from 'react';
 import requestToken from '../services/tokenApi';
 
 class Login extends React.Component {
@@ -12,10 +12,11 @@ class Login extends React.Component {
     };
   }
 
-  handleClick = async () => {
+  handleClick = async (event) => {
+    event.preventDefault();
     const { history } = this.props;
     const data = await requestToken();
-    console.log(data);
+    // console.log(data);
     localStorage.setItem('token', data);
     history.push('/play');
   };
