@@ -1,7 +1,7 @@
 import { SAVEQUIZ } from '../actions';
 
 const INITIAL_STATE = {
-
+  questions: [],
 };
 
 const quiz = (state = INITIAL_STATE, { type, payload }) => {
@@ -10,7 +10,7 @@ const quiz = (state = INITIAL_STATE, { type, payload }) => {
 
     return {
       ...state,
-      quiz: payload,
+      questions: payload,
     };
 
   default:
