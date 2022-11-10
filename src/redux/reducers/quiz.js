@@ -10,7 +10,7 @@ const quiz = (state = INITIAL_STATE, { type, payload }) => {
 
     return {
       ...state,
-      email: payload,
+      quiz: payload,
     };
 
   default:
