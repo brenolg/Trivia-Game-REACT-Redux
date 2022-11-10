@@ -1,6 +1,9 @@
 import { SAVEUSER } from '../actions';
 
 const INITIAL_STATE = {
+  name: '',
+  score: 0,
+  gravatarEmail: '',
 };
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
@@ -9,7 +12,9 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
 
     return {
       ...state,
-      player: payload,
+      player: payload.name,
+      gravatarEmail: payload.email,
+      photoUrl: payload.photo,
     };
 
   default:
