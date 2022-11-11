@@ -1,7 +1,7 @@
 import React from 'react';
 import Quiz from '../components/Quiz';
 
-class Play extends React.Component {
+class Game extends React.Component {
   render() {
     return (
       <>
@@ -12,4 +12,4 @@ class Play extends React.Component {
   }
 }
 
-export default Play;
+export default Game;
