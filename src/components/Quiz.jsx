@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Quiz.css';
 import requestQuiz from '../services/quizAPI';
 
 class Quiz extends React.Component {
@@ -8,6 +9,7 @@ class Quiz extends React.Component {
     this.state = {
       id: 0,
       questions: [],
+      click: false,
     };
   }
 
@@ -34,8 +36,12 @@ class Quiz extends React.Component {
     return arr;
   };
 
+  handleClick = () => {
+    this.setState({ click: true });
+  };
+
   render() {
-    const { questions, id } = this.state;
+    const { questions, id, click } = this.state;
 
     if (questions.length === 0) return <p>Loading...</p>;
 
@@ -57,7 +63,12 @@ class Quiz extends React.Component {
             randomAlternatives.map((alt, i) => {
               if (alt === questions[id].correct_answer) {
                 return (
-                  <button type="button" data-testid="correct-answer">
+                  <button
+                    type="button"
+                    data-testid="correct-answer"
+                    className={ click ? 'correctAnswer' : null }
+                    onClick={ this.handleClick }
+                  >
                     { alt }
                   </button>
                 );
@@ -67,6 +78,8 @@ class Quiz extends React.Component {
                   key={ alt }
                   type="button"
                   data-testid={ `wrong-answer-${i}` }
+                  className={ click ? 'incorrectAnswer' : null }
+                  onClick={ this.handleClick }
                 >
                   { alt }
                 </button>
