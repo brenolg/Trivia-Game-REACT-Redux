@@ -1,5 +1,6 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import './Quiz.css';
 import requestQuiz from '../services/quizAPI';
 
 class Quiz extends React.Component {
@@ -9,7 +10,7 @@ class Quiz extends React.Component {
       id: 0,
       questions: [],
       buttonDisable: false,
-
+      click: false,
     };
   }
 
@@ -44,9 +45,13 @@ class Quiz extends React.Component {
     return arr;
   };
 
+  handleClick = () => {
+    this.setState({ click: true });
+  };
+
   render() {
     const { questions, id, buttonDisable } = this.state;
-
+    const { questions, id, click } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
 
     const getAlternatives = [questions[id].correct_answer,
@@ -72,6 +77,8 @@ class Quiz extends React.Component {
                     type="button"
                     data-testid="correct-answer"
                     disabled={ buttonDisable }
+                    className={ click ? 'correctAnswer' : null }
+                    onClick={ this.handleClick }
                   >
                     { alt }
                   </button>
@@ -83,6 +90,8 @@ class Quiz extends React.Component {
                   type="button"
                   data-testid={ `wrong-answer-${i}` }
                   disabled={ buttonDisable }
+                  className={ click ? 'incorrectAnswer' : null }
+                  onClick={ this.handleClick }
                 >
                   { alt }
                 </button>
