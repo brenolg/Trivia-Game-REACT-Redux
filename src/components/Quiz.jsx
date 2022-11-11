@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Quiz.css';
+import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
+// import { saveAssertion, saveScore } from '../redux/actions';
 
 class Quiz extends React.Component {
   constructor() {
@@ -45,8 +47,17 @@ class Quiz extends React.Component {
     return arr;
   };
 
+  // handleAlternative = ({ target }) => {
+  //   const { dispatch } = this.props;
+  //   const { value } = target;
+  //   if (value.includes('correct')) {
+  //     dispatch(saveAssertion(1));
+  //   }
+  //   dispatch(saveScore(value));
+  // };
+
   handleClick = () => {
-    this.setState({ click: true });
+    this.setState({ click: true, buttonDisable: true });
   };
 
   render() {
@@ -74,6 +85,7 @@ class Quiz extends React.Component {
                 return (
                   <button
                     type="button"
+                    value="correct"
                     data-testid="correct-answer"
                     disabled={ buttonDisable }
                     className={ click ? 'correctAnswer' : null }
@@ -85,8 +97,9 @@ class Quiz extends React.Component {
               }
               return (
                 <button
-                  key={ alt }
+                  key={ `${i} - ${alt}` }
                   type="button"
+                  value="wrong"
                   data-testid={ `wrong-answer-${i}` }
                   disabled={ buttonDisable }
                   className={ click ? 'incorrectAnswer' : null }
@@ -117,4 +130,8 @@ Quiz.propTypes = {
   }).isRequired,
 };
 
-export default Quiz;
+const mapStateToProps = (state) => ({
+  score: state.player.score,
+});
+
+export default connect(mapStateToProps)(Quiz);
