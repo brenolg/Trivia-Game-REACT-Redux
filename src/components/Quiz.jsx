@@ -1,6 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-// import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
 
 class Quiz extends React.Component {
@@ -13,17 +12,14 @@ class Quiz extends React.Component {
   }
 
   async componentDidMount() {
-    // const gameToken = localStorage.getItem('token');
     const { history } = this.props;
-    const invalidToken = '12345';
-    const response = await requestQuiz(invalidToken);
+    const gameToken = localStorage.getItem('token');
+    const response = await requestQuiz(gameToken);
     if (response.response_code === 0) {
-      console.log('caí no if');
       this.setState({
         questions: response.results,
       });
     } else {
-      console.log('caí no else');
       localStorage.removeItem('token');
       history.push('/');
     }
