@@ -8,6 +8,8 @@ class Quiz extends React.Component {
     this.state = {
       id: 0,
       questions: [],
+      buttonDisable: false,
+
     };
   }
 
@@ -22,8 +24,16 @@ class Quiz extends React.Component {
     } else {
       localStorage.removeItem('token');
       history.push('/');
-    }
+    } this.handleTimeBtn();
   }
+
+  handleTimeBtn = () => {
+    setTimeout(() => {
+      this.setState({
+        buttonDisable: true,
+      });
+    }, '30000');
+  };
 
   // fonte: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
   shuffleArray = (arr) => {
@@ -35,7 +45,7 @@ class Quiz extends React.Component {
   };
 
   render() {
-    const { questions, id } = this.state;
+    const { questions, id, buttonDisable } = this.state;
 
     if (questions.length === 0) return <p>Loading...</p>;
 
@@ -46,6 +56,7 @@ class Quiz extends React.Component {
     return (
       <>
         <h1>Quiz</h1>
+
         <h2 data-testid="question-category">
           { questions[id].category }
         </h2>
@@ -57,7 +68,11 @@ class Quiz extends React.Component {
             randomAlternatives.map((alt, i) => {
               if (alt === questions[id].correct_answer) {
                 return (
-                  <button type="button" data-testid="correct-answer">
+                  <button
+                    type="button"
+                    data-testid="correct-answer"
+                    disabled={ buttonDisable }
+                  >
                     { alt }
                   </button>
                 );
@@ -67,6 +82,7 @@ class Quiz extends React.Component {
                   key={ alt }
                   type="button"
                   data-testid={ `wrong-answer-${i}` }
+                  disabled={ buttonDisable }
                 >
                   { alt }
                 </button>
@@ -75,7 +91,13 @@ class Quiz extends React.Component {
           }
         </div>
         <h3 data-testid="question-text">dsd</h3>
-        <button type="button">Proximo</button>
+        <button
+          type="button"
+
+        >
+          Proximo
+
+        </button>
       </>
     );
   }
