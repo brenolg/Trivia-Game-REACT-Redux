@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import Quiz from '../components/Quiz';
 import Header from '../components/Header';
+import Timer from '../components/Timer';
 
 class Game extends React.Component {
   render() {
@@ -9,7 +10,7 @@ class Game extends React.Component {
     return (
       <>
         <Header />
-        <h1>Play</h1>
+        <Timer />
         <Quiz
           history={ history }
         />

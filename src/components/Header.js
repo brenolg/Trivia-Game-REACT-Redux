@@ -5,6 +5,7 @@ import PropTypes from 'prop-types';
 class Header extends React.Component {
   render() {
     const { photo, player, score } = this.props;
+
     return (
       <header>
         <div>
@@ -12,6 +13,7 @@ class Header extends React.Component {
           <p data-testid="header-player-name">{ player }</p>
         </div>
         <p data-testid="header-score">{ score }</p>
+
       </header>
     );
   }
