@@ -50,8 +50,7 @@ class Quiz extends React.Component {
   };
 
   render() {
-    const { questions, id, buttonDisable } = this.state;
-    const { questions, id, click } = this.state;
+    const { questions, id, buttonDisable, click } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
 
     const getAlternatives = [questions[id].correct_answer,
