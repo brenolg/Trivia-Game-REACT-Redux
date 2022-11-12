@@ -1,10 +1,11 @@
-import { SAVEASSERTION, SAVENAME, SAVESCORE } from '../actions';
+import { SAVEASSERTION, SAVENAME, SAVESCORE, SAVETIMER } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
   score: 0,
   assertions: 0,
   gravatarEmail: '',
+  timer: 30,
 };
 
 const player = (state = INITIAL_STATE, { type, payload }) => {
@@ -17,12 +18,17 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
   case SAVESCORE:
     return {
       ...state,
-      score: payload,
+      score: +payload,
     };
   case SAVEASSERTION:
     return {
       ...state,
       assertions: +payload,
+    };
+  case SAVETIMER:
+    return {
+      ...state,
+      timer: payload,
     };
   default:
     return state;

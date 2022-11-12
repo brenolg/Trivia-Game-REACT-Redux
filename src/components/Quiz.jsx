@@ -48,12 +48,29 @@ class Quiz extends React.Component {
   };
 
   handleAlternative = ({ target }) => {
-    const { dispatch } = this.props;
+    const point = 10;
+    const pointHard = 3;
+    const { id, questions } = this.state;
+    const { dispatch, timer } = this.props;
     const { value } = target;
-    if (value.includes('correct')) {
+    console.log(timer);
+    const questionDifficulty = questions[id].difficulty;
+    if (value.includes('correct') && questionDifficulty.includes('easy')) {
+      const total = point + timer;
+      console.log(total);
+      dispatch(saveScore(total));
       dispatch(saveAssertion(1));
     }
-    dispatch(saveScore(value));
+    if (value.includes('correct') && questionDifficulty.includes('medium')) {
+      const total = point + (timer * 2);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    if (value.includes('correct') && questionDifficulty.includes('hard')) {
+      const total = point + (timer * pointHard);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
     this.handleClick();
   };
 
@@ -128,6 +145,7 @@ class Quiz extends React.Component {
 }
 
 Quiz.propTypes = {
+  timer: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
@@ -135,7 +153,8 @@ Quiz.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  score: state.player.score,
+  // score: state.player.score,
+  timer: state.player.timer,
 });
 
 export default connect(mapStateToProps)(Quiz);

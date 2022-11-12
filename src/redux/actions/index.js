@@ -2,6 +2,7 @@ export const SAVEQUIZ = 'SAVEQUIZ';
 export const SAVENAME = 'SAVENAME';
 export const SAVESCORE = 'SAVESCORE';
 export const SAVEASSERTION = 'SAVEASSERTION';
+export const SAVETIMER = 'SAVETIMER';
 
 export const saveQuiz = (payload) => ({
   type: SAVEQUIZ,
@@ -20,6 +21,11 @@ export const saveName = (payload) => ({
 
 export const saveAssertion = (payload) => ({
   type: SAVEASSERTION,
+  payload,
+});
+
+export const saveTimer = (payload) => ({
+  type: SAVETIMER,
   payload,
 });
 
