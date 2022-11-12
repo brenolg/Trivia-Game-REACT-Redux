@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Quiz.css';
 import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
-// import { saveAssertion, saveScore } from '../redux/actions';
+import { saveAssertion, saveScore } from '../redux/actions';
 
 class Quiz extends React.Component {
   constructor() {
@@ -47,17 +47,20 @@ class Quiz extends React.Component {
     return arr;
   };
 
-  // handleAlternative = ({ target }) => {
-  //   const { dispatch } = this.props;
-  //   const { value } = target;
-  //   if (value.includes('correct')) {
-  //     dispatch(saveAssertion(1));
-  //   }
-  //   dispatch(saveScore(value));
-  // };
+  handleAlternative = ({ target }) => {
+    const { dispatch } = this.props;
+    const { value } = target;
+    if (value.includes('correct')) {
+      dispatch(saveAssertion(1));
+    }
+    dispatch(saveScore(value));
+    this.handleClick();
+  };
 
   handleClick = () => {
-    this.setState({ click: true, buttonDisable: true });
+    this.setState({
+      click: true, buttonDisable: true,
+    });
   };
 
   render() {
@@ -89,7 +92,7 @@ class Quiz extends React.Component {
                     data-testid="correct-answer"
                     disabled={ buttonDisable }
                     className={ click ? 'correctAnswer' : null }
-                    onClick={ this.handleClick }
+                    onClick={ this.handleAlternative }
                   >
                     { alt }
                   </button>
@@ -103,7 +106,7 @@ class Quiz extends React.Component {
                   data-testid={ `wrong-answer-${i}` }
                   disabled={ buttonDisable }
                   className={ click ? 'incorrectAnswer' : null }
-                  onClick={ this.handleClick }
+                  onClick={ this.handleAlternative }
                 >
                   { alt }
                 </button>
@@ -125,6 +128,7 @@ class Quiz extends React.Component {
 }
 
 Quiz.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
