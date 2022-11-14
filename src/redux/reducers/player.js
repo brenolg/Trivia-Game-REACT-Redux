@@ -18,7 +18,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
   case SAVESCORE:
     return {
       ...state,
-      score: +payload,
+      score: state.score + payload,
     };
   case SAVEASSERTION:
     return {

@@ -1,5 +1,6 @@
 import React from 'react';
 import { connect } from 'react-redux';
+import PropTypes from 'prop-types';
 import Header from '../components/Header';
 
 class Feedback extends React.Component {
@@ -17,9 +18,9 @@ class Feedback extends React.Component {
   render() {
     return (
       <>
+        <Header />
         <h1>Feedback</h1>
         <h2 data-testid="feedback-text">{ this.handleFeedbackMessage }</h2>
-        <Header />
       </>
     );
   }
@@ -27,11 +28,10 @@ class Feedback extends React.Component {
 
 const mapStateToProps = (state) => ({
   assertions: state.player.assertions,
+});
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
-  player: state.player.name,
-  score: state.player.score,
 };
 
 export default connect(mapStateToProps)(Feedback);

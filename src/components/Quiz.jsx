@@ -40,12 +40,6 @@ class Quiz extends React.Component {
     }, '30000');
   };
 
-  handleClickNext() {
-    const { history } = this.props;
-    history.push('/feedback');
-    // HandleClick provisorio
-  }
-
   // fonte: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -88,7 +82,20 @@ class Quiz extends React.Component {
     });
   };
 
-  handleClickNext = () => {};
+  handleClickNext = (questions) => {
+    const lastId = 4;
+    const { history } = this.props;
+    const { id } = this.state;
+    this.setState((previousState) => ({
+      id: (previousState.id + 1) % questions,
+      click: false,
+      buttonDisable: false,
+      buttonNext: false,
+    }));
+    if (id === lastId) {
+      history.push('/feedback');
+    }
+  };
 
   render() {
     const { questions, id, buttonDisable, click, buttonNext } = this.state;
@@ -143,21 +150,13 @@ class Quiz extends React.Component {
             })
           }
         </div>
-        <h3 data-testid="question-text">dsd</h3>
-        <button
-          type="button"
-          onClick={ this.handleClickNext }
 
-        >
-          Proximo
-
-        </button>
         {buttonNext
         && (
           <button
             data-testid="btn-next"
             type="button"
-            onClick={ this.handleClickNext }
+            onClick={ () => this.handleClickNext(questions.length) }
           >
             Proximo
           </button>
