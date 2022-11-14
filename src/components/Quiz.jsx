@@ -53,11 +53,9 @@ class Quiz extends React.Component {
     const { id, questions } = this.state;
     const { dispatch, timer } = this.props;
     const { value } = target;
-    console.log(timer);
     const questionDifficulty = questions[id].difficulty;
     if (value.includes('correct') && questionDifficulty.includes('easy')) {
       const total = point + timer;
-      console.log(total);
       dispatch(saveScore(total));
       dispatch(saveAssertion(1));
     }
@@ -134,7 +132,6 @@ class Quiz extends React.Component {
         <h3 data-testid="question-text">dsd</h3>
         <button
           type="button"
-
         >
           Proximo
 

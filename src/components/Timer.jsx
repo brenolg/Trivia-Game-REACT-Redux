@@ -28,11 +28,6 @@ class Timer extends React.Component {
 
     setTimeout(() => {
       clearInterval(timerInterval);
-      this.setState({
-        timer: 0,
-      });
-      const { timer } = this.state;
-      dispatch(saveTimer(timer));
     }, '31000');
   };
 
