@@ -40,6 +40,12 @@ class Quiz extends React.Component {
     }, '30000');
   };
 
+  handleClickNext() {
+    const { history } = this.props;
+    history.push('/feedback');
+    // HandleClick provisorio
+  }
+
   // fonte: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -95,6 +101,7 @@ class Quiz extends React.Component {
     const randomAlternatives = this.shuffleArray(getAlternatives);
     return (
       <>
+
         <h1>Quiz</h1>
 
         <h2 data-testid="question-category">
@@ -136,6 +143,15 @@ class Quiz extends React.Component {
             })
           }
         </div>
+        <h3 data-testid="question-text">dsd</h3>
+        <button
+          type="button"
+          onClick={ this.handleClickNext }
+
+        >
+          Proximo
+
+        </button>
         {buttonNext
         && (
           <button
@@ -146,8 +162,8 @@ class Quiz extends React.Component {
             Proximo
           </button>
         )}
-
       </>
+
     );
   }
 }

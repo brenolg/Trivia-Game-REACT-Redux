@@ -18,6 +18,7 @@ class Game extends React.Component {
         <Quiz
           history={ history }
         />
+
       </>
     );
   }
