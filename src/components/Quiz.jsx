@@ -66,13 +66,6 @@ class Quiz extends React.Component {
     return (
       <>
 
-        <button
-          type="button"
-          onClick={ this.handleClickNext }
-        >
-          {/* btn provisorio */}
-          Next Prov
-        </button>
         <h1>Quiz</h1>
 
         <h2 data-testid="question-category">
@@ -115,6 +108,7 @@ class Quiz extends React.Component {
         <h3 data-testid="question-text">dsd</h3>
         <button
           type="button"
+          onClick={ this.handleClickNext }
 
         >
           Proximo
