@@ -15,6 +15,11 @@ class Feedback extends React.Component {
     }
   };
 
+  handleClickRetry = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     const { score, assertions } = this.props;
     return (
@@ -24,6 +29,13 @@ class Feedback extends React.Component {
         <h2 data-testid="feedback-text">{ this.handleFeedbackMessage() }</h2>
         <h3 data-testid="feedback-total-score">{score}</h3>
         <h3 data-testid="feedback-total-question">{assertions}</h3>
+        <button
+          type="button"
+          onClick={ this.handleClickRetry }
+          data-testid="btn-play-again"
+        >
+          Play Again
+        </button>
       </>
     );
   }
@@ -36,6 +48,9 @@ const mapStateToProps = (state) => ({
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
   score: PropTypes.number.isRequired,
 };
 
