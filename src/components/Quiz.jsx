@@ -3,7 +3,7 @@ import PropTypes from 'prop-types';
 import './Quiz.css';
 import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
-// import { saveAssertion, saveScore } from '../redux/actions';
+import { saveAssertion, saveScore } from '../redux/actions';
 
 class Quiz extends React.Component {
   constructor() {
@@ -13,6 +13,8 @@ class Quiz extends React.Component {
       questions: [],
       buttonDisable: false,
       click: false,
+      buttonNext: false,
+
     };
   }
 
@@ -38,6 +40,12 @@ class Quiz extends React.Component {
     }, '30000');
   };
 
+  handleClickNext() {
+    const { history } = this.props;
+    history.push('/feedback');
+    // HandleClick provisorio
+  }
+
   // fonte: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
   shuffleArray = (arr) => {
     for (let i = arr.length - 1; i > 0; i -= 1) {
@@ -47,22 +55,45 @@ class Quiz extends React.Component {
     return arr;
   };
 
-  // handleAlternative = ({ target }) => {
-  //   const { dispatch } = this.props;
-  //   const { value } = target;
-  //   if (value.includes('correct')) {
-  //     dispatch(saveAssertion(1));
-  //   }
-  //   dispatch(saveScore(value));
-  // };
-
-  handleClick = () => {
-    this.setState({ click: true, buttonDisable: true });
+  handleAlternative = ({ target }) => {
+    const point = 10;
+    const pointHard = 3;
+    const { id, questions } = this.state;
+    const { dispatch, timer } = this.props;
+    const { value } = target;
+    const questionDifficulty = questions[id].difficulty;
+    if (value.includes('correct') && questionDifficulty.includes('easy')) {
+      const total = point + timer;
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    if (value.includes('correct') && questionDifficulty.includes('medium')) {
+      const total = point + (timer * 2);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    if (value.includes('correct') && questionDifficulty.includes('hard')) {
+      const total = point + (timer * pointHard);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    this.handleClick();
+    this.setState({
+      buttonNext: true });
   };
 
+  handleClick = () => {
+    this.setState({
+      click: true, buttonDisable: true,
+    });
+  };
+
+  handleClickNext = () => {};
+
   render() {
-    const { questions, id, buttonDisable, click } = this.state;
+    const { questions, id, buttonDisable, click, buttonNext } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
+    console.log(questions[id]);
 
     const getAlternatives = [questions[id].correct_answer,
       ...questions[id].incorrect_answers];
@@ -70,6 +101,7 @@ class Quiz extends React.Component {
     const randomAlternatives = this.shuffleArray(getAlternatives);
     return (
       <>
+
         <h1>Quiz</h1>
 
         <h2 data-testid="question-category">
@@ -89,7 +121,7 @@ class Quiz extends React.Component {
                     data-testid="correct-answer"
                     disabled={ buttonDisable }
                     className={ click ? 'correctAnswer' : null }
-                    onClick={ this.handleClick }
+                    onClick={ this.handleAlternative }
                   >
                     { alt }
                   </button>
@@ -103,7 +135,7 @@ class Quiz extends React.Component {
                   data-testid={ `wrong-answer-${i}` }
                   disabled={ buttonDisable }
                   className={ click ? 'incorrectAnswer' : null }
-                  onClick={ this.handleClick }
+                  onClick={ this.handleAlternative }
                 >
                   { alt }
                 </button>
@@ -114,24 +146,39 @@ class Quiz extends React.Component {
         <h3 data-testid="question-text">dsd</h3>
         <button
           type="button"
+          onClick={ this.handleClickNext }
 
         >
           Proximo
 
         </button>
+        {buttonNext
+        && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.handleClickNext }
+          >
+            Proximo
+          </button>
+        )}
       </>
+
     );
   }
 }
 
 Quiz.propTypes = {
+  timer: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
 const mapStateToProps = (state) => ({
-  score: state.player.score,
+  // score: state.player.score,
+  timer: state.player.timer,
 });
 
 export default connect(mapStateToProps)(Quiz);

@@ -13,7 +13,6 @@ class Header extends React.Component {
           <p data-testid="header-player-name">{ name }</p>
         </div>
         <p data-testid="header-score">{ score }</p>
-
       </header>
     );
   }
