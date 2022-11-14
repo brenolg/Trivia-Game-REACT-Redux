@@ -15,12 +15,24 @@ class Feedback extends React.Component {
     }
   };
 
+  handleClickRetry = () => {
+    const { history } = this.props;
+    history.push('/');
+  };
+
   render() {
     return (
       <>
         <Header />
         <h1>Feedback</h1>
         <h2 data-testid="feedback-text">{ this.handleFeedbackMessage() }</h2>
+        <button
+          type="button"
+          onClick={ this.handleClickRetry }
+          data-testid="btn-play-again"
+        >
+          Play Again
+        </button>
       </>
     );
   }
@@ -32,6 +44,9 @@ const mapStateToProps = (state) => ({
 
 Feedback.propTypes = {
   assertions: PropTypes.number.isRequired,
+  history: PropTypes.shape({
+    push: PropTypes.func,
+  }).isRequired,
 };
 
 export default connect(mapStateToProps)(Feedback);
