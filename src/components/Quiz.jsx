@@ -108,6 +108,7 @@ class Quiz extends React.Component {
     const randomAlternatives = this.shuffleArray(getAlternatives);
     return (
       <>
+
         <h1>Quiz</h1>
 
         <h2 data-testid="question-category">
@@ -149,6 +150,7 @@ class Quiz extends React.Component {
             })
           }
         </div>
+
         {buttonNext
         && (
           <button
@@ -159,8 +161,8 @@ class Quiz extends React.Component {
             Proximo
           </button>
         )}
-
       </>
+
     );
   }
 }
