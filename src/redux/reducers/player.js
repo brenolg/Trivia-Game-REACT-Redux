@@ -23,7 +23,7 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
   case SAVEASSERTION:
     return {
       ...state,
-      assertions: +payload,
+      assertions: state.assertions + payload,
     };
   case SAVETIMER:
     return {
