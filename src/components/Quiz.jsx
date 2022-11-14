@@ -13,6 +13,8 @@ class Quiz extends React.Component {
       questions: [],
       buttonDisable: false,
       click: false,
+      buttonNext: false,
+
     };
   }
 
@@ -70,6 +72,8 @@ class Quiz extends React.Component {
       dispatch(saveAssertion(1));
     }
     this.handleClick();
+    this.setState({
+      buttonNext: true });
   };
 
   handleClick = () => {
@@ -78,9 +82,12 @@ class Quiz extends React.Component {
     });
   };
 
+  handleClickNext = () => {};
+
   render() {
-    const { questions, id, buttonDisable, click } = this.state;
+    const { questions, id, buttonDisable, click, buttonNext } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
+    console.log(questions[id]);
 
     const getAlternatives = [questions[id].correct_answer,
       ...questions[id].incorrect_answers];
@@ -129,13 +136,17 @@ class Quiz extends React.Component {
             })
           }
         </div>
-        <h3 data-testid="question-text">dsd</h3>
-        <button
-          type="button"
-        >
-          Proximo
+        {buttonNext
+        && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.handleClickNext }
+          >
+            Proximo
+          </button>
+        )}
 
-        </button>
       </>
     );
   }
