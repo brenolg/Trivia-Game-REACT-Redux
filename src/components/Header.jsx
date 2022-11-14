@@ -4,16 +4,15 @@ import PropTypes from 'prop-types';
 
 class Header extends React.Component {
   render() {
-    const { photo, player, score } = this.props;
+    const { photo, name, score } = this.props;
 
     return (
       <header>
         <div>
-          <img src={ photo } alt={ player } data-testid="header-profile-picture" />
-          <p data-testid="header-player-name">{ player }</p>
+          <img src={ photo } alt={ name } data-testid="header-profile-picture" />
+          <p data-testid="header-player-name">{ name }</p>
         </div>
         <p data-testid="header-score">{ score }</p>
-
       </header>
     );
   }
@@ -31,7 +30,7 @@ Header.defaultProps = {
 };
 
 const mapStateToProps = (state) => ({
-  player: state.player.player,
+  name: state.player.name,
   score: state.player.score,
 });
 

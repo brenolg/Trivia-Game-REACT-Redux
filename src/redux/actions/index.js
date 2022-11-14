@@ -1,19 +1,31 @@
-export const SAVEUSER = 'SAVEUSER';
 export const SAVEQUIZ = 'SAVEQUIZ';
 export const SAVENAME = 'SAVENAME';
-
-export const saveUser = (payload) => ({
-  type: SAVEUSER,
-  payload,
-});
+export const SAVESCORE = 'SAVESCORE';
+export const SAVEASSERTION = 'SAVEASSERTION';
+export const SAVETIMER = 'SAVETIMER';
 
 export const saveQuiz = (payload) => ({
   type: SAVEQUIZ,
   payload,
 });
 
+export const saveScore = (payload) => ({
+  type: SAVESCORE,
+  payload,
+});
+
 export const saveName = (payload) => ({
   type: SAVENAME,
+  payload,
+});
+
+export const saveAssertion = (payload) => ({
+  type: SAVEASSERTION,
+  payload,
+});
+
+export const saveTimer = (payload) => ({
+  type: SAVETIMER,
   payload,
 });
 
