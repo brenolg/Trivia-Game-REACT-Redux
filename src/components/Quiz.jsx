@@ -1,7 +1,9 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import './Quiz.css';
+import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
+import { saveAssertion, saveScore } from '../redux/actions';
 
 class Quiz extends React.Component {
   constructor() {
@@ -11,6 +13,8 @@ class Quiz extends React.Component {
       questions: [],
       buttonDisable: false,
       click: false,
+      buttonNext: false,
+
     };
   }
 
@@ -51,13 +55,45 @@ class Quiz extends React.Component {
     return arr;
   };
 
-  handleClick = () => {
-    this.setState({ click: true });
+  handleAlternative = ({ target }) => {
+    const point = 10;
+    const pointHard = 3;
+    const { id, questions } = this.state;
+    const { dispatch, timer } = this.props;
+    const { value } = target;
+    const questionDifficulty = questions[id].difficulty;
+    if (value.includes('correct') && questionDifficulty.includes('easy')) {
+      const total = point + timer;
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    if (value.includes('correct') && questionDifficulty.includes('medium')) {
+      const total = point + (timer * 2);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    if (value.includes('correct') && questionDifficulty.includes('hard')) {
+      const total = point + (timer * pointHard);
+      dispatch(saveScore(total));
+      dispatch(saveAssertion(1));
+    }
+    this.handleClick();
+    this.setState({
+      buttonNext: true });
   };
 
+  handleClick = () => {
+    this.setState({
+      click: true, buttonDisable: true,
+    });
+  };
+
+  handleClickNext = () => {};
+
   render() {
-    const { questions, id, buttonDisable, click } = this.state;
+    const { questions, id, buttonDisable, click, buttonNext } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
+    console.log(questions[id]);
 
     const getAlternatives = [questions[id].correct_answer,
       ...questions[id].incorrect_answers];
@@ -81,10 +117,11 @@ class Quiz extends React.Component {
                 return (
                   <button
                     type="button"
+                    value="correct"
                     data-testid="correct-answer"
                     disabled={ buttonDisable }
                     className={ click ? 'correctAnswer' : null }
-                    onClick={ this.handleClick }
+                    onClick={ this.handleAlternative }
                   >
                     { alt }
                   </button>
@@ -92,12 +129,13 @@ class Quiz extends React.Component {
               }
               return (
                 <button
-                  key={ alt }
+                  key={ `${i} - ${alt}` }
                   type="button"
+                  value="wrong"
                   data-testid={ `wrong-answer-${i}` }
                   disabled={ buttonDisable }
                   className={ click ? 'incorrectAnswer' : null }
-                  onClick={ this.handleClick }
+                  onClick={ this.handleAlternative }
                 >
                   { alt }
                 </button>
@@ -114,7 +152,16 @@ class Quiz extends React.Component {
           Proximo
 
         </button>
-
+        {buttonNext
+        && (
+          <button
+            data-testid="btn-next"
+            type="button"
+            onClick={ this.handleClickNext }
+          >
+            Proximo
+          </button>
+        )}
       </>
 
     );
@@ -122,9 +169,16 @@ class Quiz extends React.Component {
 }
 
 Quiz.propTypes = {
+  timer: PropTypes.number.isRequired,
+  dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
   }).isRequired,
 };
 
-export default Quiz;
+const mapStateToProps = (state) => ({
+  // score: state.player.score,
+  timer: state.player.timer,
+});
+
+export default connect(mapStateToProps)(Quiz);

@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import { connect } from 'react-redux';
 import React from 'react';
 import requestToken from '../services/tokenApi';
-import { saveUser } from '../redux/actions';
+import { saveName } from '../redux/actions';
 
 class Login extends React.Component {
   constructor() {
@@ -22,7 +22,7 @@ class Login extends React.Component {
     // console.log(data);
     localStorage.setItem('token', data);
     history.push('/play');
-    dispatch(saveUser(name));
+    dispatch(saveName(name));
   };
 
   handleChange = ({ target }) => {
