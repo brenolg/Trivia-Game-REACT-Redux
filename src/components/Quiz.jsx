@@ -4,6 +4,7 @@ import './Quiz.css';
 import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
 import { saveAssertion, saveScore } from '../redux/actions';
+import { addScore, addName } from '../services/localStorage';
 
 class Quiz extends React.Component {
   constructor() {
@@ -93,10 +94,8 @@ class Quiz extends React.Component {
     }));
     if (id === lastId) {
       history.push('/feedback');
-      const names = JSON.parse(localStorage.getItem('name'));
-      const scores = JSON.parse(localStorage.getItem('score'));
-      localStorage.setItem('name', [...names, name]);
-      localStorage.setItem('score', [...scores, score]);
+      addName(name);
+      addScore(score);
     }
   };
 
