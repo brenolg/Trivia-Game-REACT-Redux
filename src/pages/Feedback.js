@@ -2,6 +2,7 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 import Header from '../components/Header';
+import { resetScore } from '../redux/actions';
 
 class Feedback extends React.Component {
   handleFeedbackMessage = () => {
@@ -16,8 +17,9 @@ class Feedback extends React.Component {
   };
 
   handleClickRetry = () => {
-    const { history } = this.props;
+    const { history, dispatch } = this.props;
     history.push('/');
+    dispatch(resetScore());
   };
 
   handleClickRanking = () => {
@@ -60,6 +62,7 @@ const mapStateToProps = (state) => ({
 });
 
 Feedback.propTypes = {
+  dispatch: PropTypes.func.isRequired,
   assertions: PropTypes.number.isRequired,
   history: PropTypes.shape({
     push: PropTypes.func,
