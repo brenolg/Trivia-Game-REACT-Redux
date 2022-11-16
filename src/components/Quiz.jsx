@@ -14,7 +14,6 @@ class Quiz extends React.Component {
       buttonDisable: false,
       click: false,
       buttonNext: false,
-
     };
   }
 
@@ -84,7 +83,7 @@ class Quiz extends React.Component {
 
   handleClickNext = (questions) => {
     const lastId = 4;
-    const { history } = this.props;
+    const { history, score, name } = this.props;
     const { id } = this.state;
     this.setState((previousState) => ({
       id: (previousState.id + 1) % questions,
@@ -94,6 +93,10 @@ class Quiz extends React.Component {
     }));
     if (id === lastId) {
       history.push('/feedback');
+      const names = JSON.parse(localStorage.getItem('name'));
+      const scores = JSON.parse(localStorage.getItem('score'));
+      localStorage.setItem('name', [...names, name]);
+      localStorage.setItem('score', [...scores, score]);
     }
   };
 
@@ -168,6 +171,8 @@ class Quiz extends React.Component {
 }
 
 Quiz.propTypes = {
+  score: PropTypes.number.isRequired,
+  name: PropTypes.string.isRequired,
   timer: PropTypes.number.isRequired,
   dispatch: PropTypes.func.isRequired,
   history: PropTypes.shape({
@@ -176,8 +181,9 @@ Quiz.propTypes = {
 };
 
 const mapStateToProps = (state) => ({
-  // score: state.player.score,
+  score: state.player.score,
   timer: state.player.timer,
+  name: state.player.name,
 });
 
 export default connect(mapStateToProps)(Quiz);
