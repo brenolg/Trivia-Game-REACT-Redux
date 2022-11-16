@@ -2,7 +2,6 @@ import React from 'react';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-const getGravatar = localStorage.getItem('token');
 class Header extends React.Component {
   render() {
     const { photo, name, score } = this.props;
@@ -27,7 +26,7 @@ Header.propTypes = { player: PropTypes.string,
   score: PropTypes.number }.isRequired;
 
 Header.defaultProps = {
-  photo: `https://www.gravatar.com/avatar/${getGravatar}`,
+  photo: 'https://www.gravatar.com/avatar/c19ad9dbaf91c5533605fbf985177ccc',
 };
 
 const mapStateToProps = (state) => ({

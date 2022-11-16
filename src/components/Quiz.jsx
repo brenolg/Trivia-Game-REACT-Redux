@@ -4,7 +4,7 @@ import './Quiz.css';
 import { connect } from 'react-redux';
 import requestQuiz from '../services/quizAPI';
 import { saveAssertion, saveScore } from '../redux/actions';
-import { addScore, addName } from '../services/localStorage';
+import { addPlayer } from '../services/localStorage';
 
 class Quiz extends React.Component {
   constructor() {
@@ -15,6 +15,7 @@ class Quiz extends React.Component {
       buttonDisable: false,
       click: false,
       buttonNext: false,
+      randomAlternatives: [],
     };
   }
 
@@ -25,6 +26,11 @@ class Quiz extends React.Component {
     if (response.response_code === 0) {
       this.setState({
         questions: response.results,
+      }, () => {
+        const randomAlternatives = this.handleAnswers();
+        this.setState({
+          randomAlternatives,
+        });
       });
     } else {
       localStorage.removeItem('token');
@@ -38,6 +44,15 @@ class Quiz extends React.Component {
         buttonDisable: true,
       });
     }, '30000');
+  };
+
+  handleAnswers = () => {
+    const { id, questions } = this.state;
+
+    const getAlternatives = [questions[id].correct_answer,
+      ...questions[id].incorrect_answers];
+    const randomAlternatives = this.shuffleArray(getAlternatives);
+    return randomAlternatives;
   };
 
   // fonte: https://www.horadecodar.com.br/2021/05/10/como-embaralhar-um-array-em-javascript-shuffle/
@@ -82,32 +97,33 @@ class Quiz extends React.Component {
     });
   };
 
-  handleClickNext = (questions) => {
+  handleClickNext = () => {
     const lastId = 4;
     const { history, score, name } = this.props;
     const { id } = this.state;
     this.setState((previousState) => ({
-      id: (previousState.id + 1) % questions,
+      id: (previousState.id + 1),
       click: false,
       buttonDisable: false,
       buttonNext: false,
-    }));
+
+    }), () => {
+      const random = this.handleAnswers();
+      this.setState({
+        randomAlternatives: random,
+      });
+    });
     if (id === lastId) {
       history.push('/feedback');
-      addName(name);
-      addScore(score);
+      addPlayer({ score, name });
     }
   };
 
   render() {
-    const { questions, id, buttonDisable, click, buttonNext } = this.state;
+    const { questions, id, buttonDisable, click, buttonNext,
+      randomAlternatives } = this.state;
     if (questions.length === 0) return <p>Loading...</p>;
-    console.log(questions[id]);
 
-    const getAlternatives = [questions[id].correct_answer,
-      ...questions[id].incorrect_answers];
-
-    const randomAlternatives = this.shuffleArray(getAlternatives);
     return (
       <>
 
@@ -158,7 +174,7 @@ class Quiz extends React.Component {
           <button
             data-testid="btn-next"
             type="button"
-            onClick={ () => this.handleClickNext(questions.length) }
+            onClick={ this.handleClickNext }
           >
             Proximo
           </button>

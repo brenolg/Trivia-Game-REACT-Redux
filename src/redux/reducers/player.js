@@ -1,4 +1,4 @@
-import { SAVEASSERTION, SAVENAME, SAVESCORE, SAVETIMER } from '../actions';
+import { SAVEASSERTION, SAVENAME, SAVESCORE, SAVETIMER, RESETSCORE } from '../actions';
 
 const INITIAL_STATE = {
   name: '',
@@ -20,6 +20,10 @@ const player = (state = INITIAL_STATE, { type, payload }) => {
       ...state,
       score: state.score + payload,
     };
+
+  case RESETSCORE:
+    return INITIAL_STATE;
+
   case SAVEASSERTION:
     return {
       ...state,
