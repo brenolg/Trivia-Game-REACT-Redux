@@ -19,7 +19,6 @@ class Login extends React.Component {
     const { history, dispatch } = this.props;
     const { name } = this.state;
     const data = await requestToken();
-    // console.log(data);
     localStorage.setItem('token', data);
     history.push('/play');
     dispatch(saveName(name));
