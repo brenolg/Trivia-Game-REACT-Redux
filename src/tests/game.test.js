@@ -1,6 +1,6 @@
-import { screen, waitFor, act } from '@testing-library/react';
+import { screen, waitFor, act, render } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import App from '../App';
+import Quiz from '../components/Quiz';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import mockInvalidToken from './mocks/mockInvalidToken';
 import mockQuiz from './mocks/mockQuiz';
@@ -9,22 +9,10 @@ import mockToken from './mocks/mockToken';
 afterEach(() => jest.clearAllMocks());
 describe('Testa a tela de jogo', () => {
   test('Testa se a tela é renderizada na rota correta', () => {
-    const { history } = renderWithRouterAndRedux(<App />, {}, '/play');
+    const { history } = renderWithRouterAndRedux(<Quiz />, {}, '/play');
 
     const { pathname } = history.location;
     expect(pathname).toBe('/play');
-  })
-
-  test('Testa se o fetch é chamado', () => {
-    renderWithRouterAndRedux(<App />, {}, '/play');
-
-    global.fetch = jest.fn(() => Promise.resolve({
-      json: () => Promise.resolve(mockQuiz),
-    }));
-
-    waitFor(() => {
-      expect(fetch).toHaveBeenCalledTimes(1);
-    })
   })
 
   test('Testa se redireciona a pagina inicial se o token é inválido', () => {
@@ -33,7 +21,7 @@ describe('Testa a tela de jogo', () => {
         json: jest.fn().mockResolvedValueOnce(mockInvalidToken).mockResolvedValue(mockQuiz),
       });
     
-    const { history } = renderWithRouterAndRedux(<App />, {}, '/play');
+    const { history } = renderWithRouterAndRedux(<Quiz />, {}, '/play');
     
 
     waitFor(() => {
@@ -49,7 +37,7 @@ describe('Testa a tela de jogo', () => {
         json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
       });
 
-    renderWithRouterAndRedux(<App />, {}, '/play');
+    renderWithRouterAndRedux(<Quiz />, {}, '/play');
     
 
     waitFor(() => {
@@ -65,7 +53,7 @@ describe('Testa a tela de jogo', () => {
       json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
     });
 
-  renderWithRouterAndRedux(<App />, {}, '/play');
+  renderWithRouterAndRedux(<Quiz />, {}, '/play');
   
 
   waitFor(() => {
@@ -79,13 +67,37 @@ describe('Testa a tela de jogo', () => {
   })
 })
 
+test('Testa se ao clicar no botão next, a pergunta é modificada', () => {
+  jest.spyOn(global, 'fetch');
+  global.fetch.mockResolvedValue({
+    json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
+  });
+
+renderWithRouterAndRedux(<Quiz />, {}, '/play');
+
+
+waitFor(() => {
+  const alternativeButton = screen.findByTestId('correct-answer');
+  act(()=> userEvent.click(alternativeButton));
+
+  const nextButton = screen.queryByTestId('btn-next');
+  act(()=> userEvent.click(nextButton));
+
+  const category = screen.findByTestId('question-category');
+  const question = screen.findByTestId('question-text');
+
+  expect(category).toHaveTextContent('Geography');
+  expect(question).toHaveTextContent('Which German city is located on the River Isar?');
+})
+})
+
   test('Testa se não renderiza o botão next quando as perguntas são renderizadas', () => {
     jest.spyOn(global, 'fetch');
     global.fetch.mockResolvedValue({
       json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
     })
 
-    renderWithRouterAndRedux(<App />, {}, '/play');
+    renderWithRouterAndRedux(<Quiz />, {}, '/play');
     
 
     waitFor(() => {
@@ -101,7 +113,7 @@ describe('Testa a tela de jogo', () => {
       json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
     });
 
-    renderWithRouterAndRedux(<App />, {}, '/play');
+    renderWithRouterAndRedux(<Quiz />, {}, '/play');
     
 
     waitFor(() => {
