@@ -1,12 +1,12 @@
-import { screen, waitFor } from '@testing-library/react';
+import { screen, waitFor, act } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
-import { act } from 'react-dom/test-utils';
 import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import mockInvalidToken from './mocks/mockInvalidToken';
 import mockQuiz from './mocks/mockQuiz';
 import mockToken from './mocks/mockToken';
 
+afterEach(() => jest.clearAllMocks());
 describe('Testa a tela de jogo', () => {
   test('Testa se a tela é renderizada na rota correta', () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/play');
@@ -28,12 +28,10 @@ describe('Testa a tela de jogo', () => {
   })
 
   test('Testa se redireciona a pagina inicial se o token é inválido', () => {
-    act(() => {
       jest.spyOn(global, 'fetch');
       global.fetch.mockResolvedValue({
         json: jest.fn().mockResolvedValueOnce(mockInvalidToken).mockResolvedValue(mockQuiz),
       });
-    })
     
     const { history } = renderWithRouterAndRedux(<App />, {}, '/play');
     
@@ -46,12 +44,10 @@ describe('Testa a tela de jogo', () => {
   })
 
   test('Testa se renderiza as alternativas', () => {
-    act(() => {
       jest.spyOn(global, 'fetch');
       global.fetch.mockResolvedValue({
         json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
       });
-    })
 
     renderWithRouterAndRedux(<App />, {}, '/play');
     
@@ -82,19 +78,17 @@ describe('Testa a tela de jogo', () => {
   })
 
   test('Testa se o botão next é renderizado após responder a pergunta', () => {
-    act(() => {
-      jest.spyOn(global, 'fetch');
-      global.fetch.mockResolvedValue({
-        json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
-      });
-    })
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
+    });
 
     renderWithRouterAndRedux(<App />, {}, '/play');
     
 
     waitFor(() => {
       const correctAnswer = screen.getByTestId('correct-answer');
-      userEvent.click(correctAnswer)
+      act(()=> userEvent.click(correctAnswer))
       const nextButton = screen.queryByTestId('btn-next');
 
       expect(nextButton).toBeInTheDocument();
