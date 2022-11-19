@@ -59,12 +59,30 @@ describe('Testa a tela de jogo', () => {
     })
   })
 
+  test('Testa se renderiza a pergunta e a categoria corretamente', () => {
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
+    });
+
+  renderWithRouterAndRedux(<App />, {}, '/play');
+  
+
+  waitFor(() => {
+    const category = screen.findByTestId('question-category');
+    const question = screen.findByTestId('question-text');
+
+    expect(category).toBeInTheDocument();
+    expect(question).toBeInTheDocument();
+    expect(category).toHaveTextContent('General Knowledge');
+    expect(question).toHaveTextContent('What is a &quot;dakimakura&quot;?');
+  })
+})
+
   test('Testa se não renderiza o botão next quando as perguntas são renderizadas', () => {
-    act(() => {
-      jest.spyOn(global, 'fetch');
-      global.fetch.mockResolvedValue({
-        json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
-      });
+    jest.spyOn(global, 'fetch');
+    global.fetch.mockResolvedValue({
+      json: jest.fn().mockResolvedValueOnce(mockToken).mockResolvedValue(mockQuiz),
     })
 
     renderWithRouterAndRedux(<App />, {}, '/play');
