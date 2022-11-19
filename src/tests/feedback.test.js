@@ -1,7 +1,6 @@
-import { render, screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
-import mockQuiz from './mocks/mockQuiz';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
 describe('Testa a tela de Feedback', () => {
@@ -23,7 +22,7 @@ describe('Testa a tela de Feedback', () => {
   })
 
   test('Testa se o score e as assertions são renderizadas na tela de feedback', () => {
-    const store = {
+    const initialState = {
       player: {
         name: 'Tryber',
         assertions: 3,
@@ -31,7 +30,7 @@ describe('Testa a tela de Feedback', () => {
         gravatarEmail: ''
       }
     }
-    renderWithRouterAndRedux(<App />, store, '/feedback');
+    renderWithRouterAndRedux(<App />, initialState, '/feedback');
 
     const score = screen.getByTestId('feedback-total-score');
     const assertions = screen.getByTestId('feedback-total-question');
@@ -41,7 +40,7 @@ describe('Testa a tela de Feedback', () => {
   })
 
   test('Testa se ao acertar só uma questão é renderizado o texto "Could be better..."', () => {
-    const store = {
+    const initialState = {
       player: {
         name: 'Tryber',
         assertions: 1,
@@ -49,14 +48,14 @@ describe('Testa a tela de Feedback', () => {
         score: 70,
       }
     }
-    renderWithRouterAndRedux(<App />, store, '/feedback');
+    renderWithRouterAndRedux(<App />, initialState, '/feedback');
 
     const feedbackText = screen.getByTestId('feedback-text');
-    expect(feedbackText).toHaveTextContent('Could be better...')
+    expect(feedbackText).toHaveTextContent('Could be better...');
   })
 
   test('Testa se ao acertar todas as questões é renderizado o texto "Well Done!"', () => {
-    const store = {
+    const initialState = {
       player: {
         name: 'Tryber',
         assertions: 5,
@@ -64,7 +63,7 @@ describe('Testa a tela de Feedback', () => {
         score: 70,
       }
     }
-    renderWithRouterAndRedux(<App />, store, '/feedback');
+    renderWithRouterAndRedux(<App />, initialState, '/feedback');
 
     const feedbackText = screen.getByTestId('feedback-text');
     expect(feedbackText).toHaveTextContent('Well Done!')

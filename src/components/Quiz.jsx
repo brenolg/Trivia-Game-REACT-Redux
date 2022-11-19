@@ -106,7 +106,6 @@ class Quiz extends React.Component {
       click: false,
       buttonDisable: false,
       buttonNext: false,
-
     }), () => {
       const random = this.handleAnswers();
       this.setState({
