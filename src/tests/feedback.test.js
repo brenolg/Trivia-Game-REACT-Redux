@@ -4,9 +4,6 @@ import App from '../App';
 import mockQuiz from './mocks/mockQuiz';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 
-const email = 'tryber@test.com';
-const name = 'Tryber'; 
-
 describe('Testa a tela de Feedback', () => {
   test('Testa se a tela de Feedback é renderizada na rota correta', () => {
     const { history } = renderWithRouterAndRedux(<App />, {}, '/feedback');
