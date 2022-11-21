@@ -9,7 +9,6 @@ describe('Criando testes para Página de Login', () => {
  
   test('Testando se a tela inical é renderizada', () => {
     renderWithRouterAndRedux(<App />);
-    screen.logTestingPlaygroundURL();
     const email = screen.getByTestId('input-gravatar-email');
     expect(email).toBeInTheDocument();
 
