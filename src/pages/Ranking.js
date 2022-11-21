@@ -27,17 +27,7 @@ class Ranking extends Component {
 
   render() {
     const { players } = this.state;
-    const one = -1;
-    const sortPlayer = players.sort((a, b) => {
-      if (a.score < b.score) {
-        return 1;
-      }
-      if (a.score > b.score) {
-        return one;
-      }
-      // a must be equal to b
-      return 0;
-    });
+    const sortPlayer = players.sort((a, b) => b.score - a.score);
 
     return (
 
