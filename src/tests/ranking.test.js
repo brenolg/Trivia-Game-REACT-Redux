@@ -5,12 +5,16 @@ import mockQuiz from './mocks/mockQuiz';
 import mockToken from './mocks/mockToken'
 import { mockLocalStorage, rankingSort } from './mocks/mockLocal';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
+import player from '../redux/reducers/player';
 
 describe('Criando testes para Página de Ranking', () => {
 
   beforeEach(()=>{
-    localStorage.setItem('player', JSON.stringify(mockLocalStorage));
+     global.localStorage.setItem('player', JSON.stringify(mockLocalStorage));
+    //  console.log(global.localStorage.getItem('player'))
   })
+
+
 
     test('Teste renderização da pagina do Ranking',() => {
         const { history } = renderWithRouterAndRedux(<App />, {}, '/ranking');
@@ -47,6 +51,7 @@ describe('Criando testes para Página de Ranking', () => {
         renderWithRouterAndRedux(<App />, {}, '/ranking')
 
         const playerOneName = screen.getByTestId('player-name-0')
+        console.log(playerOneName.innerHTML, rankingSort[0].name)
         expect(playerOneName.innerHTML).toBe(rankingSort[0].name);
 
         const playerTwoName = screen.getByTestId('player-name-1')
