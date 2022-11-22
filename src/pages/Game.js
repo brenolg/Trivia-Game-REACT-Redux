@@ -8,7 +8,6 @@ import Timer from '../components/Timer';
 class Game extends React.Component {
   render() {
     const { history, dispatch } = this.props;
-    // deletei dispatch do this.props
     return (
       <>
         <Header />
@@ -18,7 +17,6 @@ class Game extends React.Component {
         <Quiz
           history={ history }
         />
-
       </>
     );
   }
