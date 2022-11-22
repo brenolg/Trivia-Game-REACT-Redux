@@ -4,7 +4,6 @@ import App from '../App';
 import { renderWithRouterAndRedux } from './helpers/renderWithRouterAndRedux';
 import mockInvalidToken from './mocks/mockInvalidToken';
 import mockQuiz from './mocks/mockQuiz';
-import mockToken from './mocks/mockToken';
 
 const initialState = {
   player: {
