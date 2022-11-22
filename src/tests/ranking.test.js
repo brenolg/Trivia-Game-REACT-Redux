@@ -1,4 +1,4 @@
-import {  screen, waitFor } from '@testing-library/react';
+import { screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import App from '../App';
 import mockQuiz from './mocks/mockQuiz';
@@ -9,65 +9,59 @@ import player from '../redux/reducers/player';
 
 describe('Criando testes para Página de Ranking', () => {
 
-  beforeEach(()=>{
-     global.localStorage.setItem('player', JSON.stringify(mockLocalStorage));
+  beforeEach(() => {
+    global.localStorage.setItem('player', JSON.stringify(mockLocalStorage));
     //  console.log(global.localStorage.getItem('player'))
   })
 
+  test('Teste renderização da pagina do Ranking', () => {
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/ranking');
+    const { pathname } = history.location;
+    expect(pathname).toBe('/ranking');
+  })
 
+  test('Teste renderização da pagina do Login pos clicar np botão Play Again ', () => {
+    const { history } = renderWithRouterAndRedux(<App />, {}, '/ranking');
 
-    test('Teste renderização da pagina do Ranking',() => {
-        const { history } = renderWithRouterAndRedux(<App />, {}, '/ranking');
-        const { pathname } = history.location;
-        expect(pathname).toBe('/ranking');
-    })
+    const btnPlay = screen.getByTestId('btn-go-home')
+    userEvent.click(btnPlay)
 
-    test('Teste renderização da pagina do Login pos clicar np botão Play Again ',() => {
-        const { history } = renderWithRouterAndRedux(<App />, {}, '/ranking');
-        
-         const btnPlay = screen.getByTestId('btn-go-home')
-         userEvent.click(btnPlay)
-        
-        const { pathname } = history.location;
-        expect(pathname).toBe('/');
-    })
+    const { pathname } = history.location;
+    expect(pathname).toBe('/');
+  })
 
-    test('Teste renderização da pagina do Ranking com dois players ',() => {      
-        renderWithRouterAndRedux(<App />, {}, '/ranking')
+  test('Teste renderização da pagina do Ranking com dois players ', () => {
+    renderWithRouterAndRedux(<App />, {}, '/ranking')
 
-         const playerOneName = screen.getByTestId('player-name-0')
-         const playerTwoName = screen.getByTestId('player-name-1')
-         const playerOneScore = screen.getByTestId('player-score-0')
-         const playerTwoScore = screen.getByTestId('player-score-1')
+    const playerOneName = screen.getByTestId('player-name-0')
+    const playerTwoName = screen.getByTestId('player-name-1')
+    const playerOneScore = screen.getByTestId('player-score-0')
+    const playerTwoScore = screen.getByTestId('player-score-1')
 
-         expect(playerOneName).toBeInTheDocument()
-         expect(playerTwoName).toBeInTheDocument()
-         expect(playerOneScore).toBeInTheDocument()
-         expect(playerTwoScore).toBeInTheDocument()   
-    })
+    expect(playerOneName).toBeInTheDocument()
+    expect(playerTwoName).toBeInTheDocument()
+    expect(playerOneScore).toBeInTheDocument()
+    expect(playerTwoScore).toBeInTheDocument()
+  })
 
-    test('Teste renderização da pagina do Ranking ordenada',() => {
-        
-        renderWithRouterAndRedux(<App />, {}, '/ranking')
+  test('Teste renderização da pagina do Ranking ordenada', () => {
+    renderWithRouterAndRedux(<App />, {}, '/ranking')
 
-        const playerOneName = screen.getByTestId('player-name-0')
-        console.log(playerOneName.innerHTML, rankingSort[0].name)
-        expect(playerOneName.innerHTML).toBe(rankingSort[0].name);
+    const playerOneName = screen.getByTestId('player-name-0')
+    console.log(playerOneName.innerHTML, rankingSort[0].name)
+    expect(playerOneName.innerHTML).toBe(rankingSort[0].name);
 
-        const playerTwoName = screen.getByTestId('player-name-1')
-        expect(playerTwoName.innerHTML).toBe(rankingSort[1].name);
+    const playerTwoName = screen.getByTestId('player-name-1')
+    expect(playerTwoName.innerHTML).toBe(rankingSort[1].name);
 
-        const playerOneScore = screen.getByTestId('player-score-0')
-        expect(playerOneScore.innerHTML).toBe(rankingSort[0].score);
+    const playerOneScore = screen.getByTestId('player-score-0')
+    expect(playerOneScore.innerHTML).toBe(rankingSort[0].score);
 
-        const playerTwoScore = screen.getByTestId('player-score-1')
-        expect(playerTwoScore.innerHTML).toBe(rankingSort[1].score);       
-    })
+    const playerTwoScore = screen.getByTestId('player-score-1')
+    expect(playerTwoScore.innerHTML).toBe(rankingSort[1].score);
+  })
 })
 
-
-
-         
 // const localStorageMock = {
 //     getItem: jest.fn(),
 //     setItem: jest.fn(),

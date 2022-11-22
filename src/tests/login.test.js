@@ -81,9 +81,6 @@ describe('Criando testes para Página de Login', () => {
     waitFor(() => {
       expect(window.localStorage.getItem).toHaveBeenCalledTimes(1);
   });
-
-
-    
   });
-  })
+})
   
