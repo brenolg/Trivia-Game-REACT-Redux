@@ -6,8 +6,6 @@ Este projeto é um jogo de trivia que permite ao usuário testar seus conhecimen
   <img src="https://contrib.rocks/image?repo=brenolg/Trivia-Game-Redux" />
 </a>
 
-Made with [contrib.rocks](https://contrib.rocks).
-
 ## Funcionalidades
 
 * Logar no jogo e, se o email tiver cadastro no site Gravatar, ter sua foto associada ao perfil da pessoa usuária.
