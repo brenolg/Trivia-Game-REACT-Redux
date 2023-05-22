@@ -1,6 +1,13 @@
 # Projeto Trivia Game Redux
 Este projeto é um jogo de trivia que permite ao usuário testar seus conhecimentos em diferentes categorias e níveis de dificuldade. Jogo de perguntas e respostas baseado no jogo Trivia (tipo um show do milhão americano rs) utilizando React e Redux, desenvolvendo em grupo suas funcionalidades de acordo com as demandas definidas em um quadro Kanban.
 
+## Idealizadores
+<a href="https://github.com/brenolg/Trivia-Game-Redux/graphs/contributors">
+  <img src="https://contrib.rocks/image?repo=brenolg/Trivia-Game-Redux" />
+</a>
+
+Made with [contrib.rocks](https://contrib.rocks).
+
 ## Funcionalidades
 
 * Logar no jogo e, se o email tiver cadastro no site Gravatar, ter sua foto associada ao perfil da pessoa usuária.
