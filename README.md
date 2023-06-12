@@ -1,5 +1,5 @@
 # Projeto Trivia Game Redux
-Este projeto é um jogo de trivia que permite ao usuário testar seus conhecimentos em diferentes categorias e níveis de dificuldade. Jogo de perguntas e respostas baseado no jogo Trivia (tipo um show do milhão americano rs) utilizando React e Redux, desenvolvendo em grupo suas funcionalidades de acordo com as demandas definidas em um quadro Kanban.
+Este projeto é um jogo de trivia que permite ao usuário testar seus conhecimentos em diferentes categorias e níveis de dificuldade. É um jogo de perguntas e respostas baseado no jogo Trivia, semelhante ao "Who Wants to Be a Millionaire" (um programa de perguntas e respostas) nos Estados Unidos. Ele foi desenvolvido em grupo utilizando React e Redux, e as funcionalidades foram implementadas de acordo com as demandas definidas em um quadro Kanban.
 
 <img width="100%" src="trivia.gif" />
 
