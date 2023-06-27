@@ -36,7 +36,7 @@ Para instalar o projeto localmente, siga os seguintes passos:
 Clone o repositório com o comando
 
 ```javascript
- git clone git@github.com:brenolg/Trivia-Game-Redux.git
+ git clone git@github.com:brenolg/Trivia-Game-REACT-Redux.git
 ```
 Entre na pasta do projeto com o comando 
 
